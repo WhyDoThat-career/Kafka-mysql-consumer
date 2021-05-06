@@ -19,6 +19,7 @@ services:
   kafka-consumer:
     build: ~/Kafka-mysql-consumer
     container_name: kafka-consumer
+    restart : always
     ports :
        - "3306":"3306"
     volumes: :

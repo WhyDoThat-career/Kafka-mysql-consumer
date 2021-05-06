@@ -1,0 +1,27 @@
+version: "3"
+services:
+  mysql: # 서비스 명
+    image: mysql:5.7.30 # 사용할 이미지
+    restart : always
+    container_name: mysql-center # 컨테이너 이름 설정
+    ports:
+      - "3306:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    environment: # -e 옵션
+      MYSQL_ROOT_PASSWORD: "root"  # MYSQL 패스워드 설정 옵션
+      TZ: "Asia/Seoul"
+    command: # 명령어 실행
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ~/mysql:/var/lib/mysql # -v 옵션 (다렉토리 마운트 설정) 
+
+      
+  kafka-consumer:
+    build: ~/Kafka-mysql-consumer
+    container_name: kafka-consumer
+    ports :
+       - "3306":"3306"
+    volumes: :
+      - ~/Kafka-mysql-consumer:/opt
+    environment: 
+      TZ: "Aisa/Seoul"

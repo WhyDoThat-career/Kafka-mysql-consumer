@@ -3,6 +3,7 @@ from kafka import KafkaConsumer
 import json
 # topic, broker list 
 def run() :
+    print('[INFO]Create MySQL connector !')
     mysql = MySQL(key_file='/opt/keys/aws_dc_sql_key.json',
                 database='career-center')
     with open('./keys/dtype_map.json') as file :
@@ -16,7 +17,7 @@ def run() :
                             group_id='my-group',
                             value_deserializer=lambda x: json.loads(x.decode('utf-8')),
                             ) 
-    print('run cunsumer')
+    print('[INFO]Turn on Kafka Consumer !')
     for message in consumer:
         # print('message :',message)
         data = message.value['Message']

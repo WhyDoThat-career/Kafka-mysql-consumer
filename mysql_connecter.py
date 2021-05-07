@@ -1,4 +1,5 @@
 import pymysql
+import json
 
 class MySQL :
     def __init__(self,key_file,database) :
@@ -7,24 +8,30 @@ class MySQL :
             host = KEY['host'],
             user=KEY['user'],
             passwd=KEY['password'],
-            db=database
+            db=database,
             charset='utf8mb4'
         )
     def load_key(self,key_file) :
-    with open(key_file) as key_file :
-        key = json.load(key_file)
-    return key
+        with open(key_file) as key_file :
+            key = json.load(key_file)
+        return key
 
     def conn_mysqldb(self):
-        if not MYSQL_CONN.open :
-            MYSQL_CONN.ping(reconnect=True)
-        return MYSQL_CONN
+        if not self.MYSQL_CONN.open :
+            self.MYSQL_CONN.ping(reconnect=True)
+        return self.MYSQL_CONN
 
     def create_sql_item(self,item,dtype) :
         if dtype == 'string' or 'datetime':
             return "'{}'".format(item)
         elif dtype == 'bool' or 'int':
             return "{}".format(item)
+
+    def arr2str(self,array) :
+        if array is not None :
+            return ','.join(array)
+        else :
+            return None
 
     def dict_list2string(self,items,dtype_map) :
         key_arr = []
@@ -33,7 +40,7 @@ class MySQL :
             if key != 'id' and item != None :
                 key_arr.append(key)
                 item_arr.append(self.create_sql_item(item,dtype=dtype_map[key]))
-        return arr2str(key_arr),arr2str(item_arr)
+        return self.arr2str(key_arr),self.arr2str(item_arr)
     
     def insert_data(self,table,items,dtype_map) :
         skey,sdata = self.dict_list2string(items,dtype_map)

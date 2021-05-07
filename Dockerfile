@@ -5,5 +5,3 @@ RUN pip3 install -r /opt/requirements.txt
 
 WORKDIR /opt
 COPY . .
-
-CMD  ["python3","Kafka-mysql-consumer/run.py"]

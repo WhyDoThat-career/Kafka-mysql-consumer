@@ -14,7 +14,7 @@ def run() :
                             bootstrap_servers=['52.78.62.228:9092'],
                             auto_offset_reset='earliest',
                             enable_auto_commit=True,
-                            group_id='my-group',
+                            group_id='mysql_upload_server',
                             value_deserializer=lambda x: json.loads(x.decode('utf-8')),
                             ) 
     print('[INFO]Turn on Kafka Consumer !')

@@ -49,3 +49,4 @@ class MySQL :
         sql_query = f"INSERT INTO {table} ({skey}) VALUES ({sdata})"
         db_cursor.execute(sql_query)
         db.commit()
+        db.close()
